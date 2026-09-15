@@ -57,15 +57,16 @@
 
 <div class="page">
 <script>
-window.addEventListener("load", function () {
-  const music = document.getElementById("weddingMusic");
+  const weddingMusic = document.getElementById("weddingMusic");
 
-  music.volume = 1.0;
+  function startWeddingMusic() {
+    weddingMusic.play().catch(() => {});
+    document.removeEventListener("click", startWeddingMusic);
+    document.removeEventListener("touchstart", startWeddingMusic);
+  }
 
-  music.play().catch(function (error) {
-    console.log("Mobile browser blocked autoplay:", error);
-  });
-});
+  document.addEventListener("click", startWeddingMusic);
+  document.addEventListener("touchstart", startWeddingMusic);
 </script>
 
 <div class="page">
@@ -132,44 +133,50 @@ window.addEventListener("load", function () {
   <source src="./music/wedding.mp3" type="audio/mpeg">
 </audio>
 
+</div>
+
 <script>
-const weddingMusic = document.getElementById("weddingMusic");
+const music = document.getElementById("weddingMusic");
 
-function startMusic() {
-  if (weddingMusic.paused) {
-    weddingMusic.play()
-      .then(() => {
-        console.log("Wedding music started");
-      })
-      .catch((error) => {
-        console.log("Audio blocked:", error);
-      });
-  }
-}
+window.addEventListener("load", function () {
+    music.muted = false;
+    music.volume = 1;
 
-document.addEventListener("pointerdown", startMusic, { once: true });
+    music.play().then(() => {
+        console.log("AUTOPLAY WORKED");
+    }).catch((error) => {
+        console.log("AUTOPLAY BLOCKED:", error);
+    });
+});
 </script>
+
 <script>
   // Ethiopian date መስከረም 10 / 2019 ≈ September 20, 2026.
-  // Countdown target: September 20, 2026 at 2:00 PM Addis Ababa (UTC+3).
   const target = new Date("2026-09-20T14:00:00+03:00").getTime();
+
   function updateCountdown(){
     const now = Date.now(), diff = target-now;
+
     if(diff <= 0){
       document.getElementById("countdown").innerHTML =
         '<div style="grid-column:1/-1;font-size:18px;color:#d9a35b">ዛሬ ነው! ♥</div>';
       return;
     }
+
     const d=Math.floor(diff/86400000);
     const h=Math.floor((diff%86400000)/3600000);
     const m=Math.floor((diff%3600000)/60000);
     const s=Math.floor((diff%60000)/1000);
+
     document.getElementById("days").textContent=d;
     document.getElementById("hours").textContent=String(h).padStart(2,"0");
     document.getElementById("mins").textContent=String(m).padStart(2,"0");
     document.getElementById("secs").textContent=String(s).padStart(2,"0");
   }
-  updateCountdown(); setInterval(updateCountdown,1000);
+
+  updateCountdown();
+  setInterval(updateCountdown,1000);
 </script>
+
 </body>
 </html>
