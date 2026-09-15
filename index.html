@@ -46,6 +46,12 @@
   </style>
 </head>
 <body>
+<body>
+
+<audio id="weddingMusic" loop preload="auto">
+  <source src="music/wedding.mp3" type="audio/mpeg">
+</audio>
+
 <div class="page">
   <header class="hero">
     <img src="images/photo1.jpg" alt="ዮናስ እና ፂዮን">
@@ -106,7 +112,18 @@
 
   <footer>With love • Wedding Invitation</footer>
 </div>
+<script>
+  const weddingMusic = document.getElementById("weddingMusic");
 
+  function startWeddingMusic() {
+    weddingMusic.play().catch(() => {});
+    document.removeEventListener("click", startWeddingMusic);
+    document.removeEventListener("touchstart", startWeddingMusic);
+  }
+
+  document.addEventListener("click", startWeddingMusic);
+  document.addEventListener("touchstart", startWeddingMusic);
+</script>
 <script>
   // Ethiopian date መስከረም 10 / 2019 ≈ September 20, 2026.
   // Countdown target: September 20, 2026 at 2:00 PM Addis Ababa (UTC+3).
