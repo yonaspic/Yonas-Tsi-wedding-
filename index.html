@@ -47,8 +47,8 @@
 </head>
 <body>
 
-<audio id="weddingMusic" loop preload="auto">
-  <source src="music/wedding.mp3" type="audio/mpeg">
+<audio id="weddingMusic" loop preload="auto" playsinline>
+  <source src="./music/wedding.mp3" type="audio/mpeg">
 </audio>
 
 <div class="page">
@@ -111,17 +111,26 @@
 
   <footer>With love • Wedding Invitation</footer>
 </div>
+<audio id="weddingMusic" loop preload="auto" playsinline>
+  <source src="./music/wedding.mp3" type="audio/mpeg">
+</audio>
+
 <script>
-  const weddingMusic = document.getElementById("weddingMusic");
+const weddingMusic = document.getElementById("weddingMusic");
 
-  function startWeddingMusic() {
-    weddingMusic.play().catch(() => {});
-    document.removeEventListener("click", startWeddingMusic);
-    document.removeEventListener("touchstart", startWeddingMusic);
+function startMusic() {
+  if (weddingMusic.paused) {
+    weddingMusic.play()
+      .then(() => {
+        console.log("Wedding music started");
+      })
+      .catch((error) => {
+        console.log("Audio blocked:", error);
+      });
   }
+}
 
-  document.addEventListener("click", startWeddingMusic);
-  document.addEventListener("touchstart", startWeddingMusic);
+document.addEventListener("pointerdown", startMusic, { once: true });
 </script>
 <script>
   // Ethiopian date መስከረም 10 / 2019 ≈ September 20, 2026.
